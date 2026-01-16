@@ -56,7 +56,7 @@ export default function Home() {
       {/* Wedge / Vendors */}
       <section className="px-6 py-20">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-2xl font-bold text-white">Uniform & linen vendors</h2>
+          <h2 className="text-3xl font-bold text-white">Uniform & linen vendors</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
             Built to handle the complexity of providers like <span className="text-slate-200 font-semibold">Cintas</span>, <span className="text-slate-200 font-semibold">UniFirst</span>, <span className="text-slate-200 font-semibold">Vestis</span>, and <span className="text-slate-200 font-semibold">Alsco</span>.
           </p>
@@ -69,7 +69,7 @@ export default function Home() {
           <div className="inline-block px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-2">
             Our Origins
           </div>
-          <h2 className="text-2xl font-bold text-white">Built by the team behind The Laundry Guy</h2>
+          <h2 className="text-3xl font-bold text-white">Built by the team behind The Laundry Guy</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
             LineLint grew out of years of hands-on invoice auditing and contract compliance work for multi-location businesses through The Laundry Guy.
           </p>

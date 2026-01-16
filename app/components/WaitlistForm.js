@@ -70,15 +70,16 @@ export default function WaitlistForm() {
           disabled={status === 'loading'}
           className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
         >
-          {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+          Join Waitlist
         </button>
       </form>
 
-      {message && (
-        <p className={`mt-3 text-sm ${status === 'error' ? 'text-red-400' : 'text-emerald-400'}`}>
-          {message}
-        </p>
-      )}
+      <p className={`mt-4 text-sm ${message
+        ? (status === 'error' ? 'text-red-400' : 'text-emerald-400')
+        : 'text-slate-500'
+        }`}>
+        {message || 'Join the waitlist for early access.'}
+      </p>
     </div>
   );
 }

@@ -25,9 +25,6 @@ export default function Home() {
 
           <div className="flex flex-col items-center pt-4">
             <WaitlistForm />
-            <p className="mt-4 text-sm text-slate-500">
-              Join the waitlist for early access.
-            </p>
           </div>
         </div>
       </section>

@@ -42,7 +42,7 @@ export default function WaitlistForm() {
   };
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full max-w-md">
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
         {/* Honeypot field - hidden from users but bots might fill it */}
         <input

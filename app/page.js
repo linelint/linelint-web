@@ -23,9 +23,7 @@ export default function Home() {
             LineLint automatically audits vendor invoices to catch overcharges, missed credits, and contract violations — starting with uniform & linen suppliers.
           </p>
 
-          <div className="flex flex-col items-center pt-4">
-            <WaitlistForm />
-          </div>
+          <WaitlistForm />
         </div>
       </section>
 

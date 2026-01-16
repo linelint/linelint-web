@@ -15,7 +15,7 @@ export default function Home() {
             <Image src="/linelint.svg" alt="LineLint Logo" fill className="object-contain" />
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1] text-balance">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1] text-balance">
             Continuous spend monitoring and <span className="text-blue-400">contract compliance</span> for vendor invoices
           </h1>
 

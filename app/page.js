@@ -11,10 +11,6 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl mx-auto space-y-8 flex flex-col items-center">
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-4 opacity-90">
-            <Image src="/linelint.svg" alt="LineLint Logo" fill className="object-contain" />
-          </div>
-
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1] text-balance">
             Stop Overpaying Your Uniform & Linen Vendors
           </h1>
@@ -28,7 +24,7 @@ export default function Home() {
       </section>
 
       {/* What We Do */}
-      <section className="px-6 py-20 bg-slate-800/30 border-y border-slate-800/50">
+      <section id="features" className="px-6 py-20 bg-slate-800/30 border-y border-slate-800/50">
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold text-white">What we do</h2>
@@ -54,7 +50,7 @@ export default function Home() {
       </section>
 
       {/* Wedge / Vendors */}
-      <section className="px-6 py-20">
+      <section id="vendors" className="px-6 py-20">
         <div className="max-w-3xl mx-auto space-y-8">
           <h2 className="text-3xl font-bold text-white">Uniform & linen vendors</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
@@ -64,7 +60,7 @@ export default function Home() {
       </section>
 
       {/* Credibility / TLG */}
-      <section className="px-6 py-20 bg-slate-800/20">
+      <section id="about" className="px-6 py-20 bg-slate-800/20">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="inline-block px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-2">
             Our Origins

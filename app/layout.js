@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import Header from "./components/Header";
+
 const inter = Inter({
   display: 'swap',
   fallback: ['system-ui', 'arial'],
@@ -19,6 +21,7 @@ export default function RootLayout({ children }) {
       <body
         className={`antialiased`}
       >
+        <Header />
         {children}
       </body>
     </html>

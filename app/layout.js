@@ -11,8 +11,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "LineLint | Automating Vendor Invoice Audits",
-  description: "Continuous spend monitoring and contract compliance for vendor invoices. Catch overcharges and missed credits automatically.",
+  title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
+  description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
 };
 
 export default function RootLayout({ children }) {

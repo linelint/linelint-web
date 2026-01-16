@@ -20,7 +20,7 @@ export default function Home() {
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            LineLint automatically audits vendor invoices to catch overcharges, missed credits, and contract violations — starting with uniform & linen suppliers.
+            LineLint automatically audits vendor invoices to catch overcharges, missed credits, and contract violations for uniform & linen suppliers.
           </p>
 
           <WaitlistForm />
@@ -44,8 +44,8 @@ export default function Home() {
               "Flag overcharges, missed credits, and non-compliance",
               "Monitor continuously, not once per year"
             ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+              <li key={i} className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
                 <span className="text-lg text-slate-300">{item}</span>
               </li>
             ))}
@@ -56,9 +56,9 @@ export default function Home() {
       {/* Wedge / Vendors */}
       <section className="px-6 py-20">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-2xl font-bold text-white">Starting with uniform & linen vendors</h2>
+          <h2 className="text-2xl font-bold text-white">Uniform & linen vendors</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
-            Built to handle the complexity of providers like <span className="text-slate-200 font-semibold">Cintas</span>, <span className="text-slate-200 font-semibold">UniFirst</span>, <span className="text-slate-200 font-semibold">Vestis</span>, and <span className="text-slate-200 font-semibold">Alsco</span> — with plans to expand to other recurring vendor categories.
+            Built to handle the complexity of providers like <span className="text-slate-200 font-semibold">Cintas</span>, <span className="text-slate-200 font-semibold">UniFirst</span>, <span className="text-slate-200 font-semibold">Vestis</span>, and <span className="text-slate-200 font-semibold">Alsco</span>.
           </p>
         </div>
       </section>
@@ -66,10 +66,10 @@ export default function Home() {
       {/* Credibility / TLG */}
       <section className="px-6 py-20 bg-slate-800/20">
         <div className="max-w-3xl mx-auto space-y-6">
-          <div className="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-sm font-medium mb-2">
+          <div className="inline-block px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-2">
             Our Origins
           </div>
-          <h2 className="text-3xl font-bold text-white">Built by the team behind The Laundry Guy</h2>
+          <h2 className="text-2xl font-bold text-white">Built by the team behind The Laundry Guy</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
             LineLint grew out of years of hands-on invoice auditing and contract compliance work for multi-location businesses through The Laundry Guy.
           </p>
@@ -87,13 +87,12 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 py-12 border-t border-slate-900 text-center text-slate-600 text-sm">
+      <footer className="px-6 py-12 border-t border-slate-900 text-center text-slate-400 text-sm">
         <div className="space-y-4">
-          <p>© {new Date().getFullYear()} LineLint</p>
           <div className="flex justify-center gap-6">
-            <a href="mailto:hello@linelint.com" className="hover:text-slate-400 transition-colors">hello@linelint.com</a>
+            <p>© {new Date().getFullYear()} LineLint</p>
             <span className="text-slate-800">|</span>
-            <span className="cursor-not-allowed opacity-50">Privacy Policy</span>
+            <a href="mailto:hello@linelint.com" className="hover:text-slate-200 transition-colors">hello@linelint.com</a>
           </div>
         </div>
       </footer>

@@ -76,7 +76,7 @@ export default function WaitlistForm() {
 
       <p className={`mt-4 text-sm ${message
         ? (status === 'error' ? 'text-red-400' : 'text-emerald-400')
-        : 'text-slate-500'
+        : 'text-slate-400'
         }`}>
         {message || 'Join the waitlist for early access.'}
       </p>

@@ -97,8 +97,11 @@ export async function POST(request) {
     // Check Content-Type
     const contentType = request.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      // Return generic success to avoid leaking info
-      return NextResponse.json({ ok: true }, { status: 200 });
+      // Return generic success to avoid leaking info (bot/security)
+      return NextResponse.json({
+        ok: true,
+        message: 'Thanks! We\'ll be in touch soon.'
+      }, { status: 200 });
     }
 
     // Parse body with size limit check
@@ -108,7 +111,10 @@ export async function POST(request) {
     if (body.website || body.honeypot) {
       console.log('[Security] Honeypot triggered:', { ip: clientIP });
       // Return success to not alert the bot
-      return NextResponse.json({ ok: true }, { status: 200 });
+      return NextResponse.json({
+        ok: true,
+        message: 'Thanks! We\'ll be in touch soon.'
+      }, { status: 200 });
     }
 
     // Bot detection: check minimum time to submit
@@ -118,23 +124,32 @@ export async function POST(request) {
       if (timeTaken < MIN_SUBMIT_TIME_MS) {
         console.log('[Security] Form submitted too quickly:', { ip: clientIP, timeTaken });
         // Return success to not alert the bot
-        return NextResponse.json({ ok: true }, { status: 200 });
+        return NextResponse.json({
+          ok: true,
+          message: 'Thanks! We\'ll be in touch soon.'
+        }, { status: 200 });
       }
     }
 
     // Rate limiting
     if (!checkRateLimit(clientIP)) {
       console.log('[Security] Rate limit exceeded:', { ip: clientIP });
-      // Return generic success to avoid enumeration
-      return NextResponse.json({ ok: true }, { status: 200 });
+      // Return generic success to avoid enumeration (bot/security)
+      return NextResponse.json({
+        ok: true,
+        message: 'Thanks! We\'ll be in touch soon.'
+      }, { status: 200 });
     }
 
     // Extract and validate email
     const { email } = body;
 
     if (!validateEmail(email)) {
-      // Client-side should prevent this, but return generic response
-      return NextResponse.json({ ok: true }, { status: 200 });
+      // This is a legitimate validation error, not a security concern
+      return NextResponse.json({
+        ok: false,
+        message: 'Please enter a valid email address.'
+      }, { status: 400 });
     }
 
     // Normalize email
@@ -178,14 +193,19 @@ export async function POST(request) {
       // Still return success to client to prevent enumeration
     }
 
-    // Always return the same generic success response
-    // This prevents email enumeration and doesn't leak system state
-    return NextResponse.json({ ok: true }, { status: 200 });
+    // Return success response with proper message
+    return NextResponse.json({
+      ok: true,
+      message: 'Thanks for joining! We\'ll be in touch soon.'
+    }, { status: 200 });
 
   } catch (error) {
     console.error('[Waitlist API Error]', error);
-    // Return generic success even on error to prevent info leakage
-    return NextResponse.json({ ok: true }, { status: 200 });
+    // Return error response for unexpected errors
+    return NextResponse.json({
+      ok: false,
+      message: 'Something went wrong. Please try again.'
+    }, { status: 500 });
   }
 }
 

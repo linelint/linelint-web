@@ -7,7 +7,7 @@ The waitlist API endpoint (`/api/waitlist`) implements multiple layers of securi
 ## Architecture
 
 ```
-User's Browser → Vercel (/api/waitlist) → VPS (api.linelint.com/waitlist) → Database
+User's Browser → Vercel (/api/waitlist) → VPS (app.linelint.com/waitlist) → Database
 ```
 
 ## Security Features
@@ -159,7 +159,7 @@ export default function WaitlistForm() {
 Create a `.env.local` file (already in `.gitignore`):
 
 ```bash
-VPS_WAITLIST_ENDPOINT=https://api.linelint.com/waitlist
+VPS_WAITLIST_ENDPOINT=https://app.linelint.com/waitlist
 VPS_WAITLIST_API_SECRET=generate-a-strong-random-secret-here
 NEXT_PUBLIC_SITE_URL=https://linelint.com
 ```

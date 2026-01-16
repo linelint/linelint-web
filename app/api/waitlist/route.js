@@ -9,7 +9,7 @@ const MAX_REQUESTS_PER_WINDOW = 3; // 3 requests per minute per IP
 const MIN_SUBMIT_TIME_MS = 800;
 
 // VPS endpoint - replace with your actual VPS API endpoint
-const VPS_ENDPOINT = process.env.VPS_WAITLIST_ENDPOINT || 'https://api.linelint.com/waitlist';
+const VPS_ENDPOINT = process.env.VPS_WAITLIST_ENDPOINT || 'https://app.linelint.com/api/waitlist';
 
 function getRateLimitKey(ip) {
   return `waitlist:${ip}`;

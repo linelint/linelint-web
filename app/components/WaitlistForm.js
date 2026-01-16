@@ -63,12 +63,12 @@ export default function WaitlistForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === 'loading'}
-          className="flex-1 px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:opacity-50"
+          className="flex-1 px-4 py-3 bg-slate-900 border border-slate-700 rounded-full text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-300/80 focus:border-transparent transition-all disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+          className="px-6 py-3 bg-white text-black enabled:hover:bg-blue-300 font-medium rounded-full transition-colors focus:outline-none focus:ring-1 focus:ring-blue-300/80 focus:border-transparent enabled:cursor-pointer disabled:opacity-50 whitespace-nowrap"
         >
           Join Waitlist
         </button>

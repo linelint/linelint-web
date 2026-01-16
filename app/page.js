@@ -16,11 +16,11 @@ export default function Home() {
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1] text-balance">
-            Continuous spend monitoring and <span className="text-blue-400">contract compliance</span> for vendor invoices
+            Stop Overpaying Your Uniform & Linen Vendors
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            LineLint automatically audits vendor invoices to catch overcharges, missed credits, and contract violations for uniform & linen suppliers.
+            LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.
           </p>
 
           <WaitlistForm />
@@ -40,12 +40,12 @@ export default function Home() {
           <ul className="space-y-6">
             {[
               "Automatically ingest vendor invoices",
-              "Audit charges against contracts and benchmarks",
-              "Flag overcharges, missed credits, and non-compliance",
-              "Monitor continuously, not once per year"
+              "Audit invoice line items against your agreements",
+              "Flag overcharges, missed credits, and savings opportunities",
+              "Maintain continuous contract compliance"
             ].map((item, i) => (
               <li key={i} className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-300/80 shrink-0" />
                 <span className="text-lg text-slate-300">{item}</span>
               </li>
             ))}
@@ -79,7 +79,7 @@ export default function Home() {
       {/* Final CTA */}
       <section className="px-6 py-24 text-center">
         <div className="max-w-2xl mx-auto space-y-8">
-          <h2 className="text-3xl font-bold text-white">Stop overpaying on auto-pilot</h2>
+          <h2 className="text-3xl font-bold text-white">Stop overpaying today</h2>
           <div className="flex justify-center">
             <WaitlistForm />
           </div>

@@ -60,7 +60,7 @@ export default function Home() {
       </section>
 
       {/* Credibility / TLG */}
-      <section id="about" className="px-6 py-20 bg-slate-800/20">
+      <section id="about" className="px-6 py-20 bg-slate-800/20 border-y border-slate-800/50">
         <div className="max-w-3xl mx-auto space-y-6">
           <div className="inline-block px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-2">
             Our Origins

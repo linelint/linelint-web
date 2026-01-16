@@ -17,7 +17,7 @@ export default function Header() {
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
           <div className="relative h-8 w-8">
-            <Image src="/linelint.svg" alt="LineLint Logo" fill className="object-contain" />
+            <Image src="/linelint-transparent.svg" alt="LineLint Logo" fill className="object-contain" />
           </div>
           <span className="text-lg font-bold text-white tracking-tight">LineLint</span>
         </Link>

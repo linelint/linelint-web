@@ -12,20 +12,30 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://linelint.com'),
   title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
   description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
   openGraph: {
     title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
-    description: "LineLint automatically catches overcharges, missed credits, and contract violations.",
+    description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
     url: 'https://linelint.com',
     siteName: 'LineLint',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/linelint-512.png',
+        width: 512,
+        height: 512,
+        alt: 'LineLint Logo',
+      },
+    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
-    description: "LineLint automatically catches overcharges, missed credits, and contract violations.",
+    description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
+    images: ['/linelint-512.png'],
   },
 };
 

@@ -49,6 +49,7 @@ function cleanupRateLimitMap() {
 
   for (const [key, requests] of rateLimitMap.entries()) {
     const validRequests = requests.filter(timestamp => timestamp > windowStart);
+
     if (validRequests.length === 0) {
       rateLimitMap.delete(key);
     } else {
@@ -60,6 +61,7 @@ function cleanupRateLimitMap() {
 function getClientIP(request) {
   // Check various headers for real IP (Vercel provides x-forwarded-for)
   const forwarded = request.headers.get('x-forwarded-for');
+
   if (forwarded) {
     return forwarded.split(',')[0].trim();
   }
@@ -84,6 +86,7 @@ function validateEmail(email) {
 
   // Basic email regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   return emailRegex.test(email);
 }
 
@@ -96,6 +99,7 @@ export async function POST(request) {
 
     // Check Content-Type
     const contentType = request.headers.get('content-type');
+
     if (!contentType || !contentType.includes('application/json')) {
       // Return generic success to avoid leaking info (bot/security)
       return NextResponse.json({
@@ -110,6 +114,7 @@ export async function POST(request) {
     // Honeypot check - if 'website' field is filled, it's likely a bot
     if (body.website || body.honeypot) {
       console.log('[Security] Honeypot triggered:', { ip: clientIP });
+
       // Return success to not alert the bot
       return NextResponse.json({
         ok: true,
@@ -119,10 +124,13 @@ export async function POST(request) {
 
     // Bot detection: check minimum time to submit
     const formLoadTime = body.formLoadTime;
+
     if (formLoadTime) {
       const timeTaken = startTime - formLoadTime;
+
       if (timeTaken < MIN_SUBMIT_TIME_MS) {
         console.log('[Security] Form submitted too quickly:', { ip: clientIP, timeTaken });
+
         // Return success to not alert the bot
         return NextResponse.json({
           ok: true,
@@ -134,6 +142,7 @@ export async function POST(request) {
     // Rate limiting
     if (!checkRateLimit(clientIP)) {
       console.log('[Security] Rate limit exceeded:', { ip: clientIP });
+
       // Return generic success to avoid enumeration (bot/security)
       return NextResponse.json({
         ok: true,
@@ -154,8 +163,6 @@ export async function POST(request) {
 
     // Normalize email
     const normalizedEmail = email.trim().toLowerCase();
-
-
 
     // Forward to VPS
     try {
@@ -186,7 +193,6 @@ export async function POST(request) {
           statusText: vpsResponse.statusText,
         });
       }
-
     } catch (vpsError) {
       // Log VPS error but don't expose to client
       console.error('[VPS Request Failed]', vpsError.message);
@@ -198,9 +204,9 @@ export async function POST(request) {
       ok: true,
       message: 'Thanks for joining! We\'ll be in touch soon.'
     }, { status: 200 });
-
   } catch (error) {
     console.error('[Waitlist API Error]', error);
+
     // Return error response for unexpected errors
     return NextResponse.json({
       ok: false,
@@ -210,7 +216,7 @@ export async function POST(request) {
 }
 
 // Handle OPTIONS for CORS preflight
-export async function OPTIONS(request) {
+export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {

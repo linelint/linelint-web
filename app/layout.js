@@ -1,8 +1,7 @@
-import { Inter } from "next/font/google";
+import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import "./globals.css";
-
-import Header from "./components/Header";
+import { Inter } from 'next/font/google';
+import Header from './components/Header';
 
 const inter = Inter({
   display: 'swap',
@@ -13,11 +12,11 @@ const inter = Inter({
 
 export const metadata = {
   metadataBase: new URL('https://linelint.com'),
-  title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
-  description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
+  title: 'LineLint - Stop Overpaying Your Uniform & Linen Vendors',
+  description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
   openGraph: {
-    title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
-    description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
+    title: 'LineLint - Stop Overpaying Your Uniform & Linen Vendors',
+    description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
     url: 'https://linelint.com',
     siteName: 'LineLint',
     locale: 'en_US',
@@ -33,17 +32,17 @@ export const metadata = {
   },
   twitter: {
     card: 'summary',
-    title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
-    description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
+    title: 'LineLint - Stop Overpaying Your Uniform & Linen Vendors',
+    description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
     images: ['/linelint-opengraph.png'],
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.className}`}>
+    <html lang='en' className={`${inter.className}`}>
       <body
-        className={`antialiased`}
+        className={'antialiased'}
       >
         <Header />
         {children}

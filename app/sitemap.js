@@ -6,5 +6,5 @@ export default function sitemap() {
       changeFrequency: 'monthly',
       priority: 1,
     },
-  ]
+  ];
 }

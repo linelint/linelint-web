@@ -6,5 +6,5 @@ export default function robots() {
       disallow: '/private/',
     },
     sitemap: 'https://linelint.com/sitemap.xml',
-  }
+  };
 }

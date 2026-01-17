@@ -24,9 +24,9 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/linelint-512.png',
-        width: 512,
-        height: 512,
+        url: '/linelint-opengraph.png',
+        width: 1200,
+        height: 630,
         alt: 'LineLint Logo',
       },
     ],
@@ -35,7 +35,7 @@ export const metadata = {
     card: 'summary',
     title: "LineLint - Stop Overpaying Your Uniform & Linen Vendors",
     description: "LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.",
-    images: ['/linelint-512.png'],
+    images: ['/linelint-opengraph.png'],
   },
 };
 

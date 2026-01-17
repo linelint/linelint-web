@@ -25,7 +25,7 @@ export default function Home() {
 
       {/* What We Do */}
       <section id="features" className="px-6 py-20 bg-slate-800/30 border-y border-slate-800/50">
-        <div className="max-w-3xl mx-auto space-y-12">
+        <div className="max-w-4xl mx-auto space-y-12">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold text-white">What we do</h2>
             <p className="text-slate-400 text-lg">
@@ -51,7 +51,7 @@ export default function Home() {
 
       {/* Wedge / Vendors */}
       <section id="vendors" className="px-6 py-20">
-        <div className="max-w-3xl mx-auto space-y-8">
+        <div className="max-w-4xl mx-auto space-y-8">
           <h2 className="text-3xl font-bold text-white">Uniform & linen vendors</h2>
           <p className="text-slate-400 text-lg leading-relaxed">
             Built to handle the complexity of providers like <span className="text-slate-200 font-semibold">Cintas</span>, <span className="text-slate-200 font-semibold">Vestis</span>, <span className="text-slate-200 font-semibold">UniFirst</span>, and more.
@@ -61,7 +61,7 @@ export default function Home() {
 
       {/* Credibility / TLG */}
       <section id="about" className="px-6 py-20 bg-slate-800/20 border-y border-slate-800/50">
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto space-y-6">
           <div className="inline-block px-3 py-1 rounded-full bg-orange-500/10 text-orange-400 text-sm font-medium mb-2">
             Our Origins
           </div>

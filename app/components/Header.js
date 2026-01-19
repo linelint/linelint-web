@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Header() {
   const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0 });
   };
 
   return (
@@ -17,7 +17,7 @@ export default function Header() {
           className='flex items-center gap-2 transition-opacity hover:opacity-80'
         >
           <div className='relative h-8 w-8'>
-            <Image src='/linelint-transparent.svg' alt='LineLint Logo' fill className='object-contain' />
+            <Image src='/icon-transparent.svg' alt='LineLint Logo' fill className='object-contain' />
           </div>
           <span className='text-lg font-bold text-white tracking-tight'>LineLint</span>
         </Link>

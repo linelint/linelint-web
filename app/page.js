@@ -14,7 +14,7 @@ export default function Home() {
             Stop Overpaying Your Uniform & Linen Vendors
           </h1>
 
-          <p className='text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed'>
+          <p className='text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed'>
             LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.
           </p>
 

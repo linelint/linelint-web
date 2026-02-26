@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LineLint — Vendor Compliance Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Calendly link widget begin -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<!-- Calendly link widget end -->
+<style>
+  :root {
+    --bg-primary: #0a0a0c;
+    --bg-secondary: #111114;
+    --bg-tertiary: #18181c;
+    --bg-card: #1a1a1f;
+    --border: #2a2a32;
+    --border-active: #3d3d48;
+    --text-primary: #e8e8ec;
+    --text-secondary: #9898a4;
+    --text-muted: #5e5e6e;
+    --accent: #00e599;
+    --accent-dim: #00e59920;
+    --accent-mid: #00e59940;
+    --red: #ff4d4d;
+    --red-dim: #ff4d4d18;
+    --amber: #ffb020;
+    --amber-dim: #ffb02018;
+    --blue: #4da6ff;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-serif: 'Instrument Serif', serif;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.03;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 48px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,12,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .nav-logo-icon::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .nav-logo-text {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    font-family: var(--font-mono) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    background: var(--accent) !important;
+    color: var(--bg-primary) !important;
+    padding: 8px 20px !important;
+    border-radius: 4px;
+    transition: all 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: #fff !important;
+    color: var(--bg-primary) !important;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero-badge .pulse {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--accent-mid); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 8px transparent; }
+  }
+
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 400;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-top: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--bg-primary);
+    padding: 14px 32px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: #fff; transform: translateY(-1px); }
+
+  .btn-ghost {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 400;
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 14px 32px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+  .proof-bar {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0;
+    overflow: hidden;
+  }
+
+  .proof-bar-inner {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 48px;
+    flex-wrap: wrap;
+  }
+
+  .proof-item {
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.6s forwards;
+  }
+  .proof-item:nth-child(1) { animation-delay: 0.9s; }
+  .proof-item:nth-child(2) { animation-delay: 1.0s; }
+  .proof-item:nth-child(3) { animation-delay: 1.1s; }
+  .proof-item:nth-child(4) { animation-delay: 1.2s; }
+
+  .proof-number {
+    font-family: var(--font-mono);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -1px;
+  }
+
+  .proof-number .unit {
+    font-size: 20px;
+    color: var(--accent);
+  }
+
+  .proof-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 8px;
+  }
+
+  .section {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 48px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 24px;
+  }
+
+  .section-desc {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 64px;
+  }
+
+  .leak-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .leak-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .leak-card:hover {
+    border-color: var(--border-active);
+    background: var(--bg-tertiary);
+  }
+
+  .leak-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--red);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .leak-card:hover::before { opacity: 1; }
+
+  .leak-icon {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--red);
+    background: var(--red-dim);
+    padding: 6px 10px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .leak-card h3 {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+
+  .leak-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .leak-stat {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--red);
+    margin-top: 20px;
+    letter-spacing: -1px;
+  }
+
+  .dashboard-section {
+    position: relative;
+    z-index: 2;
+    padding: 120px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .dashboard-window {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+
+  .dash-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-tertiary);
+  }
+
+  .dash-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dash-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-active);
+  }
+
+  .dash-dots span:first-child { background: #ff5f57; }
+  .dash-dots span:nth-child(2) { background: #febc2e; }
+  .dash-dots span:nth-child(3) { background: #28c840; }
+
+  .dash-url {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-primary);
+    padding: 4px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .dash-content {
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    min-height: 500px;
+  }
+
+  .dash-sidebar {
+    border-right: 1px solid var(--border);
+    padding-right: 24px;
+  }
+
+  .dash-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-radius: 4px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .dash-nav-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+  .dash-nav-item.active { background: var(--accent-dim); color: var(--accent); }
+
+  .dash-nav-icon {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid currentColor;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .dash-main { display: flex; flex-direction: column; gap: 24px; }
+
+  .dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .dash-client-name {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .dash-client-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .dash-alert-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--red-dim);
+    color: var(--red);
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #ff4d4d30;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dash-alert-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  .dash-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .dash-metric-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+  }
+
+  .dash-metric-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .dash-metric-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .dash-metric-delta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
+  .delta-negative { color: var(--red); }
+  .delta-positive { color: var(--accent); }
+  .delta-warning { color: var(--amber); }
+
+  .dash-chart-area {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    flex: 1;
+    position: relative;
+  }
+
+  .dash-chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .dash-chart-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .dash-chart-tabs {
+    display: flex;
+    gap: 2px;
+  }
+
+  .dash-chart-tab {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .dash-chart-tab.active {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  .chart-svg {
+    width: 100%;
+    height: 180px;
+  }
+
+  .dash-table {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .dash-table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 120px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-tertiary);
+  }
+
+  .dash-table-header span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .dash-table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 120px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .dash-table-row:hover { background: var(--bg-tertiary); }
+  .dash-table-row:last-child { border-bottom: none; }
+
+  .dash-table-row span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .dash-table-row .item-name {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .status-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    font-weight: 500;
+  }
+
+  .status-violation {
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid #ff4d4d25;
+  }
+
+  .status-warning {
+    background: var(--amber-dim);
+    color: var(--amber);
+    border: 1px solid #ffb02025;
+  }
+
+  .status-compliant {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid #00e59925;
+  }
+
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .value-layer {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .value-layer:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    z-index: 2;
+  }
+
+  .value-layer-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .value-layer-title {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  .value-layer-pct {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -1px;
+    margin: 12px 0;
+  }
+
+  .value-layer-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .case-studies {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .case-ticker {
+    display: flex;
+    animation: ticker 30s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .case-item {
+    flex-shrink: 0;
+    padding: 48px 64px;
+    border-right: 1px solid var(--border);
+    min-width: 400px;
+  }
+
+  .case-brand {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+
+  .case-stat {
+    font-family: var(--font-mono);
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -2px;
+  }
+
+  .case-detail {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .plans-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 48px;
+  }
+
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .plan-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 48px 36px;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .plan-card:hover { border-color: var(--border-active); }
+
+  .plan-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, var(--accent-dim) 0%, var(--bg-card) 40%);
+  }
+
+  .plan-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--bg-primary);
+    background: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .plan-tier {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .plan-name {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 12px;
+  }
+
+  .plan-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    min-height: 66px;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+
+  .plan-features li {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .plan-features li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .plan-target {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    letter-spacing: 0.3px;
+  }
+
+  .plan-cta {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+
+  .plan-cta:hover { border-color: var(--accent); color: var(--accent); }
+
+  .plan-card.featured .plan-cta {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
+  }
+
+  .plan-card.featured .plan-cta:hover { background: #fff; }
+
+  .comparison-wrap {
+    margin-top: 80px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .comp-table th,
+  .comp-table td {
+    padding: 14px 20px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comp-table thead th {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .comp-table thead th:last-child {
+    color: var(--accent);
+  }
+
+  .comp-table td {
+    color: var(--text-secondary);
+  }
+
+  .comp-table td:first-child {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .comp-table td:last-child {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .comp-table tbody tr:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .comp-check { color: var(--accent); }
+  .comp-x { color: var(--text-muted); }
+  .comp-partial { color: var(--amber); }
+
+  .cta-section {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 160px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .cta-section h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .cta-section h2 em { font-style: italic; color: var(--accent); }
+
+  .cta-section p {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 480px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  .cta-calc {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 24px;
+    margin-top: 32px;
+  }
+
+  .cta-calc-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .cta-calc-value {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--border);
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer-left {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-secondary); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 1024px) {
+    .leak-grid, .value-grid, .plans-grid { grid-template-columns: 1fr; }
+    .dash-content { grid-template-columns: 1fr; }
+    .dash-sidebar { display: none; }
+    .dash-metrics { grid-template-columns: repeat(2, 1fr); }
+    .dash-table-header, .dash-table-row { grid-template-columns: 2fr 1fr 1fr; }
+    .dash-table-header span:nth-child(4),
+    .dash-table-header span:nth-child(5),
+    .dash-table-row span:nth-child(4),
+    .dash-table-row .status-badge:last-child { display: none; }
+    .proof-bar-inner { gap: 40px; }
+    nav { padding: 0 24px; }
+    .hero, .section, .dashboard-section, .plans-section, .cta-section { padding-left: 24px; padding-right: 24px; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 16px; }
+    .comp-table { font-size: 10px; }
+    .comp-table th, .comp-table td { padding: 10px 12px; }
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .dash-metrics { grid-template-columns: 1fr 1fr; }
+    .case-item { min-width: 280px; padding: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="noise-overlay"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon"></div>
+    <span class="nav-logo-text">LineLint</span>
+  </a>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#platform">Platform</a>
+    <a href="#plans">Plans</a>
+    <a href="#results">Results</a>
+    <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/cardin-linelint/30min'});return false;" class="nav-cta">Book a Demo →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="pulse"></span>
+    Live Compliance Monitoring
+  </div>
+  <h1>Your vendors are <em>overcharging</em> you. We prove it.</h1>
+  <p class="hero-sub">
+    LineLint is AI-powered compliance intelligence for uniform & linen spend.
+    We've recovered millions for hundreds of businesses by finding what procurement software can't see — contract violations, unauthorized fees, and pricing drift hiding in your invoices.
+  </p>
+  <div class="hero-actions">
+    <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/cardin-linelint/30min'});return false;" class="btn-primary">Book a Demo →</a>
+    <a href="#platform" class="btn-ghost">See the Platform</a>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-bar-inner">
+    <div class="proof-item">
+      <div class="proof-number">35<span class="unit">%</span></div>
+      <div class="proof-label">Average Savings Found</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-number">$900<span class="unit">K</span></div>
+      <div class="proof-label">Largest Single Credit Recovery</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-number">1500<span class="unit">+</span></div>
+      <div class="proof-label">Businesses Audited</div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-number">10<span class="unit">YR</span></div>
+      <div class="proof-label">Pricing Intelligence</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section" id="problem">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-title">Five ways your linen vendor bill always goes up</h2>
+  <p class="section-desc">
+    Most multi-location businesses overpay by 20-35% on recurring vendor spend. Not because vendors are evil — because nobody's watching. LineLint watches.
+  </p>
+  <div class="leak-grid">
+    <div class="leak-card">
+      <span class="leak-icon">LEAK 01</span>
+      <h3>Billing Errors & Ghost Charges</h3>
+      <p>Items billed but never delivered. Duplicate charges across locations. Service fees that aren't in your contract.</p>
+      <div class="leak-stat">10%+ of accounts have credits</div>
+    </div>
+    <div class="leak-card">
+      <span class="leak-icon">LEAK 02</span>
+      <h3>Un-negotiated New Items</h3>
+      <p>20% of your products were added after the original contract. They're priced at rack rate — 40% above what you should pay.</p>
+      <div class="leak-stat">20%+ of spend never negotiated</div>
+    </div>
+    <div class="leak-card">
+      <span class="leak-icon">LEAK 03</span>
+      <h3>Silent Price Creep</h3>
+      <p>Small increases applied quarterly. No notification, no justification. Compounds to 7% annually if you're not tracking every line item.</p>
+      <div class="leak-stat">12%+ annual price creep</div>
+    </div>
+    <div class="leak-card">
+      <span class="leak-icon">LEAK 04</span>
+      <h3>Contract Rate Gaps</h3>
+      <p>Your negotiated rates were fine 3 years ago. The market moved. You didn't. You're paying 2022 prices in a 2026 market.</p>
+      <div class="leak-stat">99%+ of clients have non-competitive rates</div>
+    </div>
+    <div class="leak-card">
+      <span class="leak-icon">LEAK 05</span>
+      <h3>Missed Credits & Offsets</h3>
+      <p>Service failures, late deliveries, quality issues — all contractually eligible for credits. None submitted because nobody tracks them.</p>
+      <div class="leak-stat">100% of credit requests need follow up</div>
+    </div>
+    <div class="leak-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Cumulative Overspend</div>
+      <div style="font-family:var(--font-mono);font-size:56px;font-weight:700;color:var(--red);letter-spacing:-2px;">35%+</div>
+      <div style="font-size:14px;color:var(--text-secondary);margin-top:8px;">of your total vendor spend</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM / DASHBOARD -->
+<section class="dashboard-section" id="platform">
+  <div class="section-label">The Platform</div>
+  <h2 class="section-title">Compliance intelligence, not another dashboard</h2>
+  <p class="section-desc">
+    LineLint ingests every invoice, maps it against your contracts, benchmarks it against 10 years of negotiated rates, and tells you exactly what to claim — with the evidence attached.
+  </p>
+
+  <div class="dashboard-window">
+    <div class="dash-toolbar">
+      <div class="dash-dots"><span></span><span></span><span></span></div>
+      <div class="dash-url">app.linelint.com/dashboard</div>
+      <div style="width:52px"></div>
+    </div>
+    <div class="dash-content">
+      <div class="dash-sidebar">
+        <div class="dash-nav-item active"><div class="dash-nav-icon"></div> Overview</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Invoices</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Compliance</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Benchmarks</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Claims</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Contracts</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Reports</div>
+        <div class="dash-nav-item"><div class="dash-nav-icon"></div> Settings</div>
+      </div>
+      <div class="dash-main">
+        <div class="dash-header">
+          <div>
+            <div class="dash-client-name">National Spa Chain — Portfolio View</div>
+            <div class="dash-client-meta">1,000 locations · Vestis, Cintas, UniFirst · Last scan: 2 min ago</div>
+          </div>
+          <div class="dash-alert-badge">3 Violations Detected</div>
+        </div>
+
+        <div class="dash-metrics">
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Annual Spend</div>
+            <div class="dash-metric-value">$14.0M</div>
+            <div class="dash-metric-delta delta-negative">↑ 4.2% vs contract</div>
+          </div>
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Savings Found</div>
+            <div class="dash-metric-value" style="color:var(--accent)">$3.22M</div>
+            <div class="dash-metric-delta delta-positive">23% of total spend</div>
+          </div>
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Open Claims</div>
+            <div class="dash-metric-value">$412K</div>
+            <div class="dash-metric-delta delta-warning">7 pending review</div>
+          </div>
+          <div class="dash-metric-card">
+            <div class="dash-metric-label">Compliance Score</div>
+            <div class="dash-metric-value" style="color:var(--amber)">62<span style="font-size:14px;color:var(--text-muted)">/100</span></div>
+            <div class="dash-metric-delta delta-negative">3 contract violations</div>
+          </div>
+        </div>
+
+        <div class="dash-chart-area">
+          <div class="dash-chart-header">
+            <span class="dash-chart-title">Spend vs. Contracted Rate</span>
+            <div class="dash-chart-tabs">
+              <span class="dash-chart-tab">1M</span>
+              <span class="dash-chart-tab">3M</span>
+              <span class="dash-chart-tab active">12M</span>
+              <span class="dash-chart-tab">ALL</span>
+            </div>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 800 180" preserveAspectRatio="none">
+            <line x1="0" y1="120" x2="800" y2="120" stroke="#00e59930" stroke-width="1" stroke-dasharray="6,4"/>
+            <text x="805" y="124" fill="#00e599" font-family="JetBrains Mono" font-size="9" opacity="0.6">CONTRACT</text>
+            <polyline fill="none" stroke="#ff4d4d" stroke-width="2"
+              points="0,130 67,125 134,118 200,110 267,115 334,95 400,90 467,85 534,78 600,82 667,70 734,65"/>
+            <polygon fill="url(#redGrad)" opacity="0.15"
+              points="0,130 67,125 134,118 200,110 267,115 334,95 400,90 467,85 534,78 600,82 667,70 734,65 734,180 0,180"/>
+            <polygon fill="#ff4d4d" opacity="0.08"
+              points="134,118 200,110 267,115 334,95 400,90 467,85 534,78 600,82 667,70 734,65 734,120 667,120 600,120 534,120 467,120 400,120 334,120 267,120 200,120 134,120"/>
+            <defs>
+              <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ff4d4d" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#ff4d4d" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <text x="0" y="175" fill="#5e5e6e" font-family="JetBrains Mono" font-size="8">JAN</text>
+            <text x="134" y="175" fill="#5e5e6e" font-family="JetBrains Mono" font-size="8">MAR</text>
+            <text x="267" y="175" fill="#5e5e6e" font-family="JetBrains Mono" font-size="8">MAY</text>
+            <text x="400" y="175" fill="#5e5e6e" font-family="JetBrains Mono" font-size="8">JUL</text>
+            <text x="534" y="175" fill="#5e5e6e" font-family="JetBrains Mono" font-size="8">SEP</text>
+            <text x="667" y="175" fill="#5e5e6e" font-family="JetBrains Mono" font-size="8">NOV</text>
+          </svg>
+        </div>
+
+        <div class="dash-table">
+          <div class="dash-table-header">
+            <span>Item</span>
+            <span>Contract Rate</span>
+            <span>Billed Rate</span>
+            <span>Overage</span>
+            <span>Status</span>
+          </div>
+          <div class="dash-table-row">
+            <span class="item-name">Massage Table Sheets (King)</span>
+            <span>$0.42/ea</span>
+            <span style="color:var(--red)">$0.61/ea</span>
+            <span style="color:var(--red)">+45.2%</span>
+            <span class="status-badge status-violation">VIOLATION</span>
+          </div>
+          <div class="dash-table-row">
+            <span class="item-name">Hand Towels — Hot Cabinet</span>
+            <span>$0.18/ea</span>
+            <span style="color:var(--amber)">$0.22/ea</span>
+            <span style="color:var(--amber)">+22.2%</span>
+            <span class="status-badge status-warning">WARNING</span>
+          </div>
+          <div class="dash-table-row">
+            <span class="item-name">Staff Polo — Branded</span>
+            <span>$3.10/wk</span>
+            <span>$3.10/wk</span>
+            <span style="color:var(--accent)">0.0%</span>
+            <span class="status-badge status-compliant">COMPLIANT</span>
+          </div>
+          <div class="dash-table-row">
+            <span class="item-name">Body Towels (Oversized)</span>
+            <span>$0.55/ea</span>
+            <span style="color:var(--red)">$0.78/ea</span>
+            <span style="color:var(--red)">+41.8%</span>
+            <span class="status-badge status-violation">VIOLATION</span>
+          </div>
+          <div class="dash-table-row">
+            <span class="item-name">Robes — Guest</span>
+            <span>$1.20/ea</span>
+            <span style="color:var(--amber)">$1.35/ea</span>
+            <span style="color:var(--amber)">+12.5%</span>
+            <span class="status-badge status-warning">WARNING</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE STACK -->
+<section class="section">
+  <div class="section-label">The 5-Layer Recovery Model</div>
+  <h2 class="section-title">We don't find one thing. We find everything.</h2>
+  <p class="section-desc">
+    Most "cost reduction" tools stop at invoice parsing. LineLint runs a 5-layer forensic analysis built on 10 years of real negotiation outcomes — not industry averages.
+  </p>
+  <div class="value-grid">
+    <div class="value-layer">
+      <div class="value-layer-num">Layer 01</div>
+      <div class="value-layer-title">Credit Recovery</div>
+      <div class="value-layer-pct">10%+</div>
+      <div class="value-layer-desc">Historical billing errors found in first 30-60 days</div>
+    </div>
+    <div class="value-layer">
+      <div class="value-layer-num">Layer 02</div>
+      <div class="value-layer-title">Compliance Guard</div>
+      <div class="value-layer-pct">3-5%</div>
+      <div class="value-layer-desc">Continuous monitoring catches monthly drift</div>
+    </div>
+    <div class="value-layer">
+      <div class="value-layer-num">Layer 03</div>
+      <div class="value-layer-title">Item Optimization</div>
+      <div class="value-layer-pct">8%</div>
+      <div class="value-layer-desc">Un-negotiated post-contract items at rack rate</div>
+    </div>
+    <div class="value-layer">
+      <div class="value-layer-num">Layer 04</div>
+      <div class="value-layer-title">Rate Optimization</div>
+      <div class="value-layer-pct">35%</div>
+      <div class="value-layer-desc">Full renegotiation to competitive benchmarks</div>
+    </div>
+    <div class="value-layer">
+      <div class="value-layer-num">Layer 05</div>
+      <div class="value-layer-title">Terms Protection</div>
+      <div class="value-layer-pct">7%</div>
+      <div class="value-layer-desc">Prevents compounding price drift over contract life</div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY TICKER -->
+<div class="case-studies" id="results">
+  <div class="case-ticker">
+    <div class="case-item">
+      <div class="case-brand">National Spa Chain — 75+ Locations</div>
+      <div class="case-stat">$275K+</div>
+      <div class="case-detail">Annual savings recovered · 23% reduction on $1.2M spend</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">QSR Drive-In — 60+ Locations</div>
+      <div class="case-stat">$70K</div>
+      <div class="case-detail">Annual savings recovered · 35% reduction on $200K spend</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">Regional QSR Chain — 45+ Locations</div>
+      <div class="case-stat">38%</div>
+      <div class="case-detail">Total savings rate · $250K annual spend optimized</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">Invoices Audited — 1500+ Locations</div>
+      <div class="case-stat">$50M</div>
+      <div class="case-detail">LineLint software has analyzed over $50M of spend.</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">Single Client Recovery</div>
+      <div class="case-stat">$900K</div>
+      <div class="case-detail">One-time credit recovery · largest single refund case</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">National Spa Chain — 75+ Locations</div>
+      <div class="case-stat">$275K+</div>
+      <div class="case-detail">Annual savings recovered · 23% reduction on $1.2M spend</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">QSR Drive-In — 60+ Locations</div>
+      <div class="case-stat">$70K</div>
+      <div class="case-detail">Annual savings recovered · 35% reduction on $200K spend</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">Regional QSR Chain — 45+ Locations</div>
+      <div class="case-stat">38%</div>
+      <div class="case-detail">Total savings rate · $250K annual spend optimized</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">Invoices Audited — 1500+ Locations</div>
+      <div class="case-stat">$50M</div>
+      <div class="case-detail">LineLint software has analyzed over $50M of spend.</div>
+    </div>
+    <div class="case-item">
+      <div class="case-brand">Single Client Recovery</div>
+      <div class="case-stat">$900K</div>
+      <div class="case-detail">One-time credit recovery · largest single refund case</div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANS -->
+<section class="plans-section" id="plans">
+  <div class="section-label">Plans</div>
+  <h2 class="section-title">Flexible plans for 5 to 5,000+ locations</h2>
+  <p class="section-desc">
+    Start with software. Add intelligence. Graduate to done-for-you. Every plan pays for itself. Let's talk about what fits your operation.
+  </p>
+
+  <div class="plans-grid">
+    <div class="plan-card">
+      <div class="plan-tier">Tier 1</div>
+      <div class="plan-name">Compliance Monitor</div>
+      <div class="plan-desc">Self-service invoice auditing and violation detection. You handle vendor communication — we give you the evidence.</div>
+      <div class="plan-target">Best for: 5-20 locations with an ops manager</div>
+      <ul class="plan-features">
+        <li>Invoice ingestion & parsing</li>
+        <li>Automated compliance flagging</li>
+        <li>Claim package generator</li>
+        <li>Resolution tracking</li>
+        <li>Monthly compliance reports</li>
+      </ul>
+      <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/cardin-linelint/30min'});return false;" class="plan-cta">Book a Demo →</a>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="plan-tier">Tier 2</div>
+      <div class="plan-name">Compliance + Intelligence</div>
+      <div class="plan-desc">Everything in Monitor plus proprietary pricing benchmarks from 10 years of negotiation data. Know exactly what you should be paying.</div>
+      <div class="plan-target">Best for: 15-50 locations with a CFO or Finance Director</div>
+      <ul class="plan-features">
+        <li>Everything in Monitor</li>
+        <li>Proprietary rate benchmarks</li>
+        <li>Market rate analysis by region</li>
+        <li>Savings opportunity scoring</li>
+        <li>Contract optimization recs</li>
+        <li>Quarterly business reviews</li>
+      </ul>
+      <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/cardin-linelint/30min'});return false;" class="plan-cta">Book a Demo →</a>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-tier">Tier 3</div>
+      <div class="plan-name">Full-Service</div>
+      <div class="plan-desc">We handle everything. Claim writing, vendor calls, contract renegotiation, ongoing enforcement. Performance-based — we only win when you save.</div>
+      <div class="plan-target">Best for: 30+ locations or $1M+ vendor spend</div>
+      <ul class="plan-features">
+        <li>Everything in Intelligence</li>
+        <li>Dedicated negotiation team</li>
+        <li>Complete vendor management</li>
+        <li>Full contract renegotiation</li>
+        <li>Ongoing enforcement & optimization</li>
+        <li>Limited to 100 clients</li>
+      </ul>
+      <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/cardin-linelint/30min'});return false;" class="plan-cta">Apply for Full-Service →</a>
+    </div>
+  </div>
+
+  <div class="comparison-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>SIB / Generalists</th>
+          <th>Manual / Spreadsheets</th>
+          <th>LineLint</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Uniform/Linen Specialization</td>
+          <td class="comp-x">✗ Generic</td>
+          <td class="comp-x">✗ None</td>
+          <td class="comp-check">✓ Purpose-built</td>
+        </tr>
+        <tr>
+          <td>Proprietary Pricing Benchmarks</td>
+          <td class="comp-x">✗ Industry avg</td>
+          <td class="comp-x">✗ None</td>
+          <td class="comp-check">✓ 10yr negotiated rates</td>
+        </tr>
+        <tr>
+          <td>Automated Compliance Detection</td>
+          <td class="comp-partial">◐ Basic</td>
+          <td class="comp-x">✗ Manual review</td>
+          <td class="comp-check">✓ AI-powered, real-time</td>
+        </tr>
+        <tr>
+          <td>Claim Package Generation</td>
+          <td class="comp-x">✗ Not available</td>
+          <td class="comp-x">✗ Manual</td>
+          <td class="comp-check">✓ One-click with evidence</td>
+        </tr>
+        <tr>
+          <td>Contract Term Enforcement</td>
+          <td class="comp-x">✗ No</td>
+          <td class="comp-partial">◐ If someone remembers</td>
+          <td class="comp-check">✓ Automated monitoring</td>
+        </tr>
+        <tr>
+          <td>Done-For-You Negotiation</td>
+          <td class="comp-x">✗ Software only</td>
+          <td class="comp-x">✗ DIY</td>
+          <td class="comp-check">✓ Expert team available</td>
+        </tr>
+        <tr>
+          <td>Avg. Savings Delivered</td>
+          <td class="comp-x">3-5%</td>
+          <td class="comp-x">0-2%</td>
+          <td class="comp-check" style="font-size:13px">23-38%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <h2>Stop funding your<br>vendor's <em>margin expansion</em></h2>
+  <p>
+    Upload 3 months of invoices. In 48 hours, we'll show you exactly what you're overpaying — with the documentation to get it back.
+  </p>
+  <div>
+    <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/cardin-linelint/30min'});return false;" class="btn-primary" style="font-size:15px;padding:18px 40px;">Book Your Free Audit →</a>
+  </div>
+  <div class="cta-calc">
+    <span class="cta-calc-label">Avg. credit audit recovery</span>
+    <span class="cta-calc-value">$10K+ per $100K annual spend</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">© 2026 LineLint Inc. · Vendor compliance intelligence.</div>
+  <div class="footer-links">
+    <a href="mailto:hello@linelint.com">Contact</a>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+</body>
+</html>

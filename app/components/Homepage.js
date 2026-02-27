@@ -488,8 +488,8 @@ export default function Homepage() {
         <div className='footer-left'>© 2026 LineLint Inc. · Vendor compliance intelligence.</div>
         <div className='footer-links'>
           <a href='mailto:hello@linelint.com'>Contact</a>
-          <a href='https://app.linelint.com/privacy-policy'>Privacy</a>
-          <a href='https://app.linelint.com/terms-of-service'>Terms</a>
+          <Link href='/privacy-policy'>Privacy</Link>
+          <Link href='/terms-of-service'>Terms</Link>
         </div>
       </footer>
 

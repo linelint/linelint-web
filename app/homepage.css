@@ -20,7 +20,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
 
   body {
     font-family: var(--font-dm-sans);
@@ -1130,6 +1130,94 @@
 
   .footer-links a:hover { color: var(--text-secondary); }
 
+  .legal-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .legal-shell {
+    flex: 1;
+    width: 100%;
+    max-width: 980px;
+    padding-top: 148px;
+    padding-bottom: 72px;
+  }
+
+  .legal-title {
+    max-width: none;
+    margin-bottom: 32px;
+  }
+
+  .legal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .legal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .legal-section h2 {
+    font-family: var(--font-jetbrains-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .legal-section p {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+
+  .legal-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .legal-list li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-family: var(--font-jetbrains-mono);
+  }
+
+  .legal-link {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .legal-link:hover {
+    border-color: var(--accent);
+  }
+
+  .legal-last-updated {
+    font-family: var(--font-jetbrains-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 20px;
+  }
+
+  .legal-footer {
+    width: min(100%, 1400px);
+    align-self: center;
+  }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -1151,6 +1239,8 @@
     footer { padding: 32px 24px; flex-direction: column; gap: 16px; }
     .comp-table { font-size: 10px; }
     .comp-table th, .comp-table td { padding: 10px 12px; }
+    .legal-shell { padding-top: 128px; }
+    .legal-content { padding: 28px; }
   }
 
   @media (max-width: 640px) {

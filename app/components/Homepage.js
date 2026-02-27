@@ -190,7 +190,7 @@ export default function Homepage() {
                 </div>
                 <svg className='chart-svg' viewBox='0 0 800 180' preserveAspectRatio='none'>
                   <line x1='0' y1='120' x2='800' y2='120' stroke='#00e59930' strokeWidth='1' strokeDasharray='6,4' />
-                  <text x='805' y='124' fill='#00e599' fontFamily='JetBrains Mono' fontSize='9' opacity='0.6'>CONTRACT</text>
+                  <text x='805' y='124' fill='#00e599' fontFamily='var(--font-jetbrains-mono)' fontSize='9' opacity='0.6'>CONTRACT</text>
                   <polyline fill='none' stroke='#ff4d4d' strokeWidth='2'
                     points='0,130 67,125 134,118 200,110 267,115 334,95 400,90 467,85 534,78 600,82 667,70 734,65' />
                   <polygon fill='url(#redGrad)' opacity='0.15'
@@ -203,12 +203,12 @@ export default function Homepage() {
                       <stop offset='100%' stopColor='#ff4d4d' stopOpacity='0' />
                     </linearGradient>
                   </defs>
-                  <text x='0' y='175' fill='#5e5e6e' fontFamily='JetBrains Mono' fontSize='8'>JAN</text>
-                  <text x='134' y='175' fill='#5e5e6e' fontFamily='JetBrains Mono' fontSize='8'>MAR</text>
-                  <text x='267' y='175' fill='#5e5e6e' fontFamily='JetBrains Mono' fontSize='8'>MAY</text>
-                  <text x='400' y='175' fill='#5e5e6e' fontFamily='JetBrains Mono' fontSize='8'>JUL</text>
-                  <text x='534' y='175' fill='#5e5e6e' fontFamily='JetBrains Mono' fontSize='8'>SEP</text>
-                  <text x='667' y='175' fill='#5e5e6e' fontFamily='JetBrains Mono' fontSize='8'>NOV</text>
+                  <text x='0' y='175' fill='#5e5e6e' fontFamily='var(--font-jetbrains-mono)' fontSize='8'>JAN</text>
+                  <text x='134' y='175' fill='#5e5e6e' fontFamily='var(--font-jetbrains-mono)' fontSize='8'>MAR</text>
+                  <text x='267' y='175' fill='#5e5e6e' fontFamily='var(--font-jetbrains-mono)' fontSize='8'>MAY</text>
+                  <text x='400' y='175' fill='#5e5e6e' fontFamily='var(--font-jetbrains-mono)' fontSize='8'>JUL</text>
+                  <text x='534' y='175' fill='#5e5e6e' fontFamily='var(--font-jetbrains-mono)' fontSize='8'>SEP</text>
+                  <text x='667' y='175' fill='#5e5e6e' fontFamily='var(--font-jetbrains-mono)' fontSize='8'>NOV</text>
                 </svg>
               </div>
 

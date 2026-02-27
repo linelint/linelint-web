@@ -1,6 +1,27 @@
 import './globals.css';
 import './homepage.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { DM_Sans, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-dm-sans',
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-instrument-serif',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+});
 
 export const metadata = {
   metadataBase: new URL('https://linelint.com'),
@@ -70,7 +91,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body
-        className={'antialiased'}
+        className={`${dmSans.className} ${dmSans.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} antialiased`}
       >
         {children}
         <script

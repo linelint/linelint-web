@@ -14,9 +14,13 @@ function LineLintLogo() {
 }
 
 export default function Header({ navLinks = [], ctaHref, ctaLabel, onCtaClick, ctaTarget = '_blank', ctaRel = 'noreferrer' }) {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <nav>
-      <Link href='/' className='nav-logo' aria-label='LineLint home'>
+      <Link href='/' onClick={handleScrollToTop} className='nav-logo' aria-label='LineLint home'>
         <LineLintLogo />
         <span className='nav-logo-text'>LineLint</span>
       </Link>

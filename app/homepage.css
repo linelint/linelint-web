@@ -140,6 +140,7 @@
     color: var(--bg-primary) !important;
     padding: 8px 20px !important;
     border-radius: 4px;
+    white-space: nowrap;
     transition: all 0.2s !important;
   }
 
@@ -1158,7 +1159,9 @@
   }
 
   @media (max-width: 640px) {
-    .nav-links { display: none; }
+    .nav-links { gap: 0; }
+    .nav-links .nav-link { display: none; }
+    .nav-cta { padding: 8px 14px !important; }
     .dash-metrics { grid-template-columns: 1fr 1fr; }
     .case-item { min-width: 280px; padding: 32px; }
   }

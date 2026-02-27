@@ -31,10 +31,10 @@ export default function Homepage() {
           <span className='nav-logo-text'>LineLint</span>
         </a>
         <div className='nav-links'>
-          <a href='#problem'>Problem</a>
-          <a href='#platform'>Platform</a>
-          <a href='#plans'>Plans</a>
-          <a href='#results'>Results</a>
+          <a href='#problem' className='nav-link'>Problem</a>
+          <a href='#platform' className='nav-link'>Platform</a>
+          <a href='#recovery-model' className='nav-link'>Results</a>
+          <a href='#plans' className='nav-link'>Plans</a>
           <a href={CALENDLY_URL} className='nav-cta' onClick={handleCalendlyClick} target='_blank' rel='noreferrer'>Book a Demo →</a>
         </div>
       </nav>
@@ -260,7 +260,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section className='section'>
+      <section className='section' id='recovery-model'>
         <div className='section-label'>The 5-Layer Recovery Model</div>
         <h2 className='section-title'>We don&apos;t find one thing. We find everything.</h2>
         <p className='section-desc'>
@@ -487,8 +487,8 @@ export default function Homepage() {
         <div className='footer-left'>© 2026 LineLint Inc. · Vendor compliance intelligence.</div>
         <div className='footer-links'>
           <a href='mailto:hello@linelint.com'>Contact</a>
-          <a href='#'>Privacy</a>
-          <a href='#'>Terms</a>
+          <a href='https://app.linelint.com/privacy-policy'>Privacy</a>
+          <a href='https://app.linelint.com/terms-of-service'>Terms</a>
         </div>
       </footer>
 

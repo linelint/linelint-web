@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import Header from '@/app/components/Header';
 
 const CONTACT_EMAIL = 'hello@linelint.com';
 const CALENDLY_URL = 'https://calendly.com/cardin-linelint/30min';
@@ -10,15 +10,7 @@ export default function LegalShell({ title, lastUpdated, children }) {
       <div className='grid-bg'></div>
       <div className='noise-overlay'></div>
 
-      <nav>
-        <Link href='/' className='nav-logo' aria-label='LineLint home'>
-          <Image src='/icon-transparent.svg' alt='LineLint logo' width={28} height={28} className='nav-logo-image' priority />
-          <span className='nav-logo-text'>LineLint</span>
-        </Link>
-        <div className='nav-links'>
-          <a href={CALENDLY_URL} className='nav-cta' target='_blank' rel='noreferrer'>Book a Demo →</a>
-        </div>
-      </nav>
+      <Header ctaHref={CALENDLY_URL} ctaLabel='Book a Demo →' />
 
       <section className='section legal-shell'>
         <div className='section-label'>Legal</div>

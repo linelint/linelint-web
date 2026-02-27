@@ -73,12 +73,20 @@
     align-items: center;
     gap: 10px;
     text-decoration: none;
+    color: var(--text-primary);
+    transition: color 0.2s;
+  }
+
+  .nav-logo:hover,
+  .nav-logo:focus-visible {
+    color: var(--accent);
   }
 
   .nav-logo-image {
     width: 28px;
     height: 28px;
-    object-fit: contain;
+    flex-shrink: 0;
+    transition: color 0.2s;
   }
 
   .nav-logo-icon {
@@ -104,8 +112,9 @@
     font-family: var(--font-jetbrains-mono);
     font-weight: 700;
     font-size: 16px;
-    color: var(--text-primary);
+    color: currentColor;
     letter-spacing: -0.5px;
+    transition: color 0.2s;
   }
 
   .nav-links {

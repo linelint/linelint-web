@@ -1,10 +1,16 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
+import Header from './Header';
 
 const CALENDLY_URL = 'https://calendly.com/cardin-linelint/30min';
+const HEADER_LINKS = [
+  { href: '#problem', label: 'Problem' },
+  { href: '#platform', label: 'Platform' },
+  { href: '#recovery-model', label: 'Results' },
+  { href: '#plans', label: 'Plans' },
+];
 
 export default function Homepage() {
   const handleCalendlyClick = (event) => {
@@ -26,19 +32,12 @@ export default function Homepage() {
       <div className='grid-bg'></div>
       <div className='noise-overlay'></div>
 
-      <nav>
-        <Link href='/' className='nav-logo' aria-label='LineLint home'>
-          <Image src='/icon-transparent.svg' alt='LineLint logo' width={28} height={28} className='nav-logo-image' priority />
-          <span className='nav-logo-text'>LineLint</span>
-        </Link>
-        <div className='nav-links'>
-          <a href='#problem' className='nav-link'>Problem</a>
-          <a href='#platform' className='nav-link'>Platform</a>
-          <a href='#recovery-model' className='nav-link'>Results</a>
-          <a href='#plans' className='nav-link'>Plans</a>
-          <a href={CALENDLY_URL} className='nav-cta' onClick={handleCalendlyClick} target='_blank' rel='noreferrer'>Book a Demo →</a>
-        </div>
-      </nav>
+      <Header
+        navLinks={HEADER_LINKS}
+        ctaHref={CALENDLY_URL}
+        ctaLabel='Book a Demo →'
+        onCtaClick={handleCalendlyClick}
+      />
 
       <section className='hero'>
         <div className='hero-badge'>

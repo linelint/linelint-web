@@ -2,7 +2,7 @@ export default function manifest() {
   return {
     name: 'LineLint',
     short_name: 'LineLint',
-    description: 'Stop Overpaying Your Uniform & Linen Vendors',
+    description: 'AI-powered compliance intelligence for uniform and linen spend',
     start_url: '/',
     display: 'standalone',
     background_color: '#020617',

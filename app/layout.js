@@ -1,14 +1,6 @@
 import './globals.css';
+import './homepage.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Inter } from 'next/font/google';
-import Header from './components/Header';
-
-const inter = Inter({
-  display: 'swap',
-  fallback: ['system-ui', 'arial'],
-  preload: true,
-  subsets: ['latin'],
-});
 
 export const metadata = {
   metadataBase: new URL('https://linelint.com'),
@@ -19,8 +11,8 @@ export const metadata = {
     index: true,
     follow: true,
   },
-  title: 'LineLint - Stop Overpaying Your Uniform & Linen Vendors',
-  description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
+  title: 'LineLint — Vendor Compliance Intelligence',
+  description: 'LineLint is AI-powered compliance intelligence for uniform and linen spend, surfacing contract violations, unauthorized fees, and hidden pricing drift.',
   applicationName: 'LineLint',
   keywords: ['invoice audit', 'linen service savings', 'uniform rental audit', 'cost recovery', 'contract compliance'],
   authors: [{ name: 'LineLint' }],
@@ -39,17 +31,31 @@ export const metadata = {
     ],
   },
   openGraph: {
-    title: 'LineLint - Stop Overpaying Your Uniform & Linen Vendors',
-    description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
+    title: 'LineLint — Vendor Compliance Intelligence',
+    description: 'LineLint is AI-powered compliance intelligence for uniform and linen spend, surfacing contract violations, unauthorized fees, and hidden pricing drift.',
     url: 'https://linelint.com',
     siteName: 'LineLint',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/opengraph-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'LineLint vendor compliance intelligence dashboard preview',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LineLint - Stop Overpaying Your Uniform & Linen Vendors',
-    description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
+    title: 'LineLint — Vendor Compliance Intelligence',
+    description: 'LineLint is AI-powered compliance intelligence for uniform and linen spend, surfacing contract violations, unauthorized fees, and hidden pricing drift.',
+    images: [
+      {
+        url: '/twitter-image.png',
+        alt: 'LineLint vendor compliance intelligence dashboard preview',
+      },
+    ],
   },
 };
 
@@ -62,11 +68,10 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='en' className={`${inter.className}`}>
+    <html lang='en'>
       <body
         className={'antialiased'}
       >
-        <Header />
         {children}
         <script
           type='application/ld+json'
@@ -77,7 +82,7 @@ export default function RootLayout({ children }) {
               name: 'LineLint',
               url: 'https://linelint.com',
               logo: 'https://linelint.com/icon.png',
-              description: 'LineLint automatically catches overcharges, missed credits, and contract violations, ensuring every invoice matches exactly what you agreed to pay.',
+              description: 'LineLint is AI-powered compliance intelligence for uniform and linen spend, surfacing contract violations, unauthorized fees, and hidden pricing drift.',
               sameAs: [
                 'https://linkedin.com/company/linelint',
                 'https://x.com/line_lint',

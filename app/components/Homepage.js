@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import Script from 'next/script';
 
 const CALENDLY_URL = 'https://calendly.com/cardin-linelint/30min';
@@ -26,10 +27,10 @@ export default function Homepage() {
       <div className='noise-overlay'></div>
 
       <nav>
-        <a href='#' className='nav-logo' aria-label='LineLint home'>
+        <Link href='/' className='nav-logo' aria-label='LineLint home'>
           <Image src='/icon-transparent.svg' alt='LineLint logo' width={28} height={28} className='nav-logo-image' priority />
           <span className='nav-logo-text'>LineLint</span>
-        </a>
+        </Link>
         <div className='nav-links'>
           <a href='#problem' className='nav-link'>Problem</a>
           <a href='#platform' className='nav-link'>Platform</a>
